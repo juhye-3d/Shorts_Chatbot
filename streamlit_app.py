@@ -1,12 +1,13 @@
 import streamlit as st
 from openai import OpenAI
 
-# CSS로 글자 크기 조정 및 기타 커스텀
+# --- 글자 크기 및 스타일 커스텀 ---
 st.markdown("""
     <style>
     .user-message, .assistant-message {
         font-size: 1.2rem !important;
         line-height: 1.7;
+        font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "sans-serif";
     }
     .stChatInputContainer textarea {
         font-size: 1.1rem !important;
@@ -29,7 +30,7 @@ mode = st.selectbox("모드를 선택하세요", ["유튜브 쇼츠 생성", "�
 target = st.selectbox("🎯 타겟층", ["10대", "20대", "직장인", "엄마들", "전 연령"])
 tone = st.selectbox("🎨 톤 앤 매너", ["유쾌한", "감성적인", "진지한", "믿음직한", "힙한", "깔끔한"])
 
-# 옵션이 바뀌면 세션 리셋
+# 옵션 변경 시 세션 리셋
 reset_flag = False
 if "mode_prev" not in st.session_state or st.session_state.mode_prev != mode:
     reset_flag = True
@@ -41,7 +42,7 @@ if "tone_prev" not in st.session_state or st.session_state.tone_prev != tone:
 if reset_flag or "messages" not in st.session_state:
     st.session_state.messages = []
     if mode == "유튜브 쇼츠 생성":
-        # system 메시지는 실제 대화창에 표시하지 않고, messages에만 저장
+        # 시스템 프롬프트는 대화창에 표시하지 않고 messages에만 저장
         st.session_state.system_prompt = (
             f"너는 유튜브 쇼츠 콘텐츠 기획 전문가야. 타겟은 '{target}', 톤은 '{tone}'야.\n"
             "사용자가 주제를 입력하면 아래와 같은 형식으로만 출력해야 해. **절대 설명문, 장황한 문장, 서론/결론 없이!**\n"
@@ -61,15 +62,23 @@ if reset_flag or "messages" not in st.session_state:
     st.session_state.target_prev = target
     st.session_state.tone_prev = tone
 
-# 기존 메시지(유저/어시스턴트만) 출력
+# --- 줄바꿈 인식 마크다운 렌더 함수 ---
+def render_markdown_with_newlines(text):
+    st.markdown(
+        f"<div class='assistant-message' style='white-space: pre-line'>{text}</div>",
+        unsafe_allow_html=True
+    )
+
+# --- 기존 메시지(유저/어시스턴트만) 출력 ---
 for message in st.session_state.get("messages", []):
     if message["role"] == "user":
         with st.chat_message("user"):
             st.markdown(f"<div class='user-message'>{message['content']}</div>", unsafe_allow_html=True)
     elif message["role"] == "assistant":
         with st.chat_message("assistant"):
-            st.markdown(f"<div class='assistant-message'>{message['content']}</div>", unsafe_allow_html=True)
+            render_markdown_with_newlines(message['content'])
 
+# --- 사용자 입력 ---
 if prompt := st.chat_input("주제를 입력하세요 (예: 아침 루틴, 공부법 등)"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
@@ -77,7 +86,7 @@ if prompt := st.chat_input("주제를 입력하세요 (예: 아침 루틴, 공�
 
     # 실제 GPT 호출 메시지 배열 만들기 (system + 대화내역)
     full_messages = []
-    if mode == "유튜브 쇼츠 생성":
+    if mode == "유튜브 쇼츠 생성" and st.session_state.system_prompt:
         full_messages.append({"role": "system", "content": st.session_state.system_prompt})
     full_messages.extend(st.session_state.messages)
 
@@ -90,6 +99,7 @@ if prompt := st.chat_input("주제를 입력하세요 (예: 아침 루틴, 공�
         response = st.write_stream(stream)
     st.session_state.messages.append({"role": "assistant", "content": response})
 
+# --- 답변 저장 ---
 if st.session_state.get("messages") and st.session_state.messages[-1]["role"] == "assistant":
     last_response = st.session_state.messages[-1]["content"]
     st.download_button("💾 답변 저장하기", last_response, file_name="shorts_idea.txt")
