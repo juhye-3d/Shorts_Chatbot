@@ -1,13 +1,11 @@
+## 🎬 쇼츠 아이디어 메이커 (Shorts Idea Maker) ##
+
+주제만 입력하면 타겟과 톤에 맞춘 유튜브 쇼츠 콘텐츠 아이디어를 한 번에 만들어주는 Streamlit 챗봇
 ### chatbot using OpenAI's GPT-4.0-mini ###
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://chatbot-template.streamlit.app/)
 
 ```markdown
-🎬 쇼츠 아이디어 메이커 (Shorts Idea Maker)
-
-주제만 입력하면 타겟과 톤에 맞춘 유튜브 쇼츠 콘텐츠 아이디어를 한 번에 만들어주는 Streamlit 챗봇
-
----
 
 🛠️ 프로젝트 소개
 
@@ -25,7 +23,7 @@
 - 결과 줄바꿈, 이모지, 마크다운 스타일 완벽 지원
 - 결과 txt 파일로 저장 가능
 
----
+
 
 🚀 사용 방법
 
@@ -33,15 +31,12 @@
 2. OpenAI API 키 준비(https://platform.openai.com/account/api-keys)
 3. `app.py` 실행:  
 
-
-### streamlit run app.py ###
+# streamlit run app.py #
 
 
 4. 웹 UI에서 API 키, 타겟, 톤을 선택 후 원하는 **주제**를 입력하면  
 → 맞춤 쇼츠 기획안이 출력됩니다.
 
-
----
 
 💡 기획 의도
 
@@ -50,7 +45,7 @@
 - 콘텐츠 ‘주제 선정 → 구상 → 실행’까지의 진입장벽을 최소화
 - 반복적으로 새로운 아이디어가 필요한 상황에도 빠른 레퍼런스 제공
 
----
+
 ```
 🎯 활용 예시
 
