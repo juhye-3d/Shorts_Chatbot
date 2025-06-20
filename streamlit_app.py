@@ -4,9 +4,9 @@ from openai import OpenAI
 # Show title and description.
 st.title("💬 JH-Chatbot")
 st.write(
-    "This is a simple chatbot that uses OpenAI's GPT-4.0-mini model to generate responses. "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-    "You can also learn how to build this app step by step by [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
+    "OpenAI's GPT-4.0-mini model을 활용한 응답 챗봇입니다."
+    "OpenAI APT를 입력하면 바로 진행할 수 있어요! 다음 링크를 통해서도 가져올 수 있습니다. [here](https://platform.openai.com/account/api-keys). "
+    "🔍참고 레퍼런스 확인 링크- [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
 )
 
 # Ask user for their OpenAI API key via `st.text_input`.
